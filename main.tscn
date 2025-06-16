@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://db032udp1m8a7"]
+
+[ext_resource type="Script" uid="uid://ch8bi5g5x13r4" path="res://scripts/main.gd" id="1_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://c58kc1otf3aec" path="res://art/Star.png" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://b0equbojo8ryn" path="res://art/Crate.png" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://dhc3pt7kqk7ai" path="res://scripts/pancake.gd" id="2_7mycd"]
+[ext_resource type="Script" uid="uid://osy0rboshbbh" path="res://scripts/fryingpan.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://jxopohu2wm4y" path="res://scripts/return_zone.gd" id="5_lquwl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7dm0k"]
+radius = 21.587
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
+size = Vector2(74, 27)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_1bvp3")
+returnZonePosition = Vector2(117, 615)
+
+[node name="Pancake" type="RigidBody2D" parent="."]
+position = Vector2(117, 573)
+gravity_scale = 2.976
+continuous_cd = 1
+script = ExtResource("2_7mycd")
+
+[node name="Sprite2D" type="Sprite2D" parent="Pancake"]
+scale = Vector2(3.61924, 3.65133)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pancake"]
+shape = SubResource("CircleShape2D_7dm0k")
+
+[node name="FryingPan" type="CharacterBody2D" parent="."]
+position = Vector2(117, 596)
+scale = Vector2(2, 2)
+input_pickable = true
+script = ExtResource("2_h2yge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FryingPan"]
+position = Vector2(1, 13.5)
+shape = SubResource("RectangleShape2D_ig7tw")
+
+[node name="Sprite2D" type="Sprite2D" parent="FryingPan"]
+position = Vector2(0, 9)
+scale = Vector2(5.42492, 1)
+texture = ExtResource("2_0xm2m")
+
+[node name="ReturnZone" type="Marker2D" parent="." groups=["returnZone"]]
+position = Vector2(117, 615)
+script = ExtResource("5_lquwl")
+
+[connection signal="body_entered" from="Pancake" to="Pancake" method="_on_body_entered"]
+[connection signal="mouse_entered" from="FryingPan" to="FryingPan" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="FryingPan" to="FryingPan" method="_on_mouse_exited"]
