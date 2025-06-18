@@ -1,23 +1,50 @@
-[gd_scene load_steps=9 format=3 uid="uid://db032udp1m8a7"]
+[gd_scene load_steps=15 format=3 uid="uid://db032udp1m8a7"]
 
 [ext_resource type="Script" uid="uid://ch8bi5g5x13r4" path="res://scripts/main.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://c58kc1otf3aec" path="res://art/Star.png" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://b0equbojo8ryn" path="res://art/Crate.png" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://dhc3pt7kqk7ai" path="res://scripts/pancake.gd" id="2_7mycd"]
+[ext_resource type="Script" uid="uid://cqs7udbhmxwsp" path="res://scripts/pancake_flat.gd" id="2_272bh"]
 [ext_resource type="Script" uid="uid://osy0rboshbbh" path="res://scripts/fryingpan.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://jxopohu2wm4y" path="res://scripts/return_zone.gd" id="5_lquwl"]
+[ext_resource type="Texture2D" uid="uid://7i5cm22gxyiu" path="res://assets/art/arrow.png" id="7_5vw27"]
+[ext_resource type="Script" uid="uid://d2ss865vnv6s2" path="res://scripts/height_tracker.gd" id="8_kek77"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dm0k"]
 radius = 21.587
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
-size = Vector2(74, 27)
+size = Vector2(74, 18.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vw27"]
+bg_color = Color(0.263513, 0.690945, 0.513587, 1)
+border_color = Color(0.162985, 0.438716, 0.24342, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1bvp3")
 returnZonePosition = Vector2(117, 615)
 
+[node name="PancakeFlat" type="Area2D" parent="."]
+position = Vector2(115, 471)
+script = ExtResource("2_272bh")
+
+[node name="Sprite2D" type="Sprite2D" parent="PancakeFlat"]
+scale = Vector2(3, 3)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PancakeFlat"]
+shape = SubResource("RectangleShape2D_7mycd")
+
 [node name="Pancake" type="RigidBody2D" parent="."]
+visible = false
 position = Vector2(117, 573)
 gravity_scale = 2.976
 continuous_cd = 1
@@ -37,7 +64,7 @@ input_pickable = true
 script = ExtResource("2_h2yge")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FryingPan"]
-position = Vector2(1, 13.5)
+position = Vector2(1, 9.25)
 shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="Sprite2D" type="Sprite2D" parent="FryingPan"]
@@ -45,9 +72,45 @@ position = Vector2(0, 9)
 scale = Vector2(5.42492, 1)
 texture = ExtResource("2_0xm2m")
 
+[node name="FryingPowerProgressBar" type="ProgressBar" parent="FryingPan"]
+offset_left = -12.0
+offset_top = 21.0
+offset_right = 51.0
+offset_bottom = 28.0
+theme_override_styles/background = SubResource("StyleBoxFlat_272bh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5vw27")
+max_value = 2000.0
+step = 100.0
+show_percentage = false
+
 [node name="ReturnZone" type="Marker2D" parent="." groups=["returnZone"]]
 position = Vector2(117, 615)
 script = ExtResource("5_lquwl")
+
+[node name="HeightTracker" type="Node2D" parent="."]
+script = ExtResource("8_kek77")
+
+[node name="HeightBar" type="ColorRect" parent="HeightTracker"]
+modulate = Color(0.617455, 0.617455, 0.617455, 1)
+offset_left = 206.0
+offset_top = 72.0
+offset_right = 246.0
+offset_bottom = 112.0
+scale = Vector2(0.12, 12.78)
+
+[node name="GreenZone" type="ColorRect" parent="HeightTracker/HeightBar"]
+layout_mode = 0
+offset_top = 4.86381
+offset_right = 40.0
+offset_bottom = 44.8638
+scale = Vector2(1.10526, 0.224532)
+color = Color(0.478495, 0.971201, 0.258229, 1)
+
+[node name="HeightArrow" type="Sprite2D" parent="HeightTracker"]
+position = Vector2(206, 556)
+rotation = -0.00730349
+scale = Vector2(0.345778, 0.702554)
+texture = ExtResource("7_5vw27")
 
 [connection signal="body_entered" from="Pancake" to="Pancake" method="_on_body_entered"]
 [connection signal="mouse_entered" from="FryingPan" to="FryingPan" method="_on_mouse_entered"]
