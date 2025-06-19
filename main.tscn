@@ -1,16 +1,22 @@
-[gd_scene load_steps=15 format=3 uid="uid://db032udp1m8a7"]
+[gd_scene load_steps=24 format=3 uid="uid://db032udp1m8a7"]
 
 [ext_resource type="Script" uid="uid://ch8bi5g5x13r4" path="res://scripts/main.gd" id="1_1bvp3"]
-[ext_resource type="Texture2D" uid="uid://c58kc1otf3aec" path="res://art/Star.png" id="1_ig7tw"]
-[ext_resource type="Texture2D" uid="uid://b0equbojo8ryn" path="res://art/Crate.png" id="2_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://kulksd5q2q4j" path="res://assets/art/pancakekitchenbackground.png" id="2_4c57u"]
 [ext_resource type="Script" uid="uid://dhc3pt7kqk7ai" path="res://scripts/pancake.gd" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://cqs7udbhmxwsp" path="res://scripts/pancake_flat.gd" id="2_272bh"]
 [ext_resource type="Script" uid="uid://osy0rboshbbh" path="res://scripts/fryingpan.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://jxopohu2wm4y" path="res://scripts/return_zone.gd" id="5_lquwl"]
+[ext_resource type="Texture2D" uid="uid://b7satocmaljrl" path="res://assets/art/pancake_flat.png" id="6_efxa6"]
 [ext_resource type="Texture2D" uid="uid://7i5cm22gxyiu" path="res://assets/art/arrow.png" id="7_5vw27"]
+[ext_resource type="Texture2D" uid="uid://cohjt4gosooxc" path="res://assets/art/fryingpan.png" id="7_efxa6"]
+[ext_resource type="Texture2D" uid="uid://qnegfql3ieby" path="res://assets/art/pancake_moving.png" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://d2ss865vnv6s2" path="res://scripts/height_tracker.gd" id="8_kek77"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
+[ext_resource type="Texture2D" uid="uid://b81aiwxgdtdi2" path="res://assets/art/pancake_moving_left.png" id="9_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://bs8kg0qejuqq7" path="res://assets/art/pancake_moving_left_1.png" id="10_w48qg"]
+[ext_resource type="Texture2D" uid="uid://ds3hlbn5cpn6l" path="res://assets/art/pancake_moving_left_2.png" id="11_w48qg"]
+[ext_resource type="Texture2D" uid="uid://dql7bhu67e5kg" path="res://assets/art/pancake_moving_right.png" id="12_yaehf"]
+[ext_resource type="Texture2D" uid="uid://tthw23t2yuxf" path="res://assets/art/pancake_moving_right_1.png" id="13_074og"]
+[ext_resource type="Texture2D" uid="uid://cmyp35puoie4a" path="res://assets/art/pancake_moving_right_2.png" id="14_cegan"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dm0k"]
 radius = 21.587
@@ -21,27 +27,76 @@ size = Vector2(74, 18.5)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vw27"]
-bg_color = Color(0.263513, 0.690945, 0.513587, 1)
+bg_color = Color(0.627451, 0.733333, 0.341176, 1)
 border_color = Color(0.162985, 0.438716, 0.24342, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
+size = Vector2(68, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4c57u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_efxa6")
+}],
+"loop": true,
+"name": &"flat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_efxa6")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_efxa6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ycdy4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_w48qg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_w48qg")
+}],
+"loop": false,
+"name": &"rotate_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_efxa6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_yaehf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_074og")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cegan")
+}],
+"loop": false,
+"name": &"rotate_right",
+"speed": 5.0
+}]
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1bvp3")
 returnZonePosition = Vector2(117, 615)
 
-[node name="PancakeFlat" type="Area2D" parent="."]
-position = Vector2(115, 471)
-script = ExtResource("2_272bh")
-
-[node name="Sprite2D" type="Sprite2D" parent="PancakeFlat"]
-scale = Vector2(3, 3)
-texture = ExtResource("1_ig7tw")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PancakeFlat"]
-shape = SubResource("RectangleShape2D_7mycd")
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(239, 363)
+texture = ExtResource("2_4c57u")
 
 [node name="Pancake" type="RigidBody2D" parent="."]
 visible = false
@@ -52,42 +107,58 @@ script = ExtResource("2_7mycd")
 
 [node name="Sprite2D" type="Sprite2D" parent="Pancake"]
 scale = Vector2(3.61924, 3.65133)
-texture = ExtResource("1_ig7tw")
+texture = ExtResource("6_efxa6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pancake"]
 shape = SubResource("CircleShape2D_7dm0k")
 
 [node name="FryingPan" type="CharacterBody2D" parent="."]
-position = Vector2(117, 596)
-scale = Vector2(2, 2)
+position = Vector2(181, 602)
 input_pickable = true
+motion_mode = 1
 script = ExtResource("2_h2yge")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FryingPan"]
-position = Vector2(1, 9.25)
 shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="Sprite2D" type="Sprite2D" parent="FryingPan"]
-position = Vector2(0, 9)
-scale = Vector2(5.42492, 1)
-texture = ExtResource("2_0xm2m")
+texture = ExtResource("7_efxa6")
 
 [node name="FryingPowerProgressBar" type="ProgressBar" parent="FryingPan"]
-offset_left = -12.0
-offset_top = 21.0
-offset_right = 51.0
-offset_bottom = 28.0
+offset_left = 70.0
+offset_top = 34.0
+offset_right = 133.0
+offset_bottom = 41.0
+scale = Vector2(2.76, 3.12)
 theme_override_styles/background = SubResource("StyleBoxFlat_272bh")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5vw27")
 max_value = 2000.0
 step = 100.0
 show_percentage = false
 
+[node name="PancakeFlat" type="Area2D" parent="."]
+position = Vector2(266, 581)
+script = ExtResource("2_272bh")
+
+[node name="Sprite2D" type="Sprite2D" parent="PancakeFlat"]
+visible = false
+texture = ExtResource("6_efxa6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PancakeFlat"]
+shape = SubResource("RectangleShape2D_7mycd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PancakeFlat"]
+sprite_frames = SubResource("SpriteFrames_4c57u")
+animation = &"rotate_right"
+frame = 3
+frame_progress = 1.0
+
 [node name="ReturnZone" type="Marker2D" parent="." groups=["returnZone"]]
-position = Vector2(117, 615)
+position = Vector2(181, 602)
 script = ExtResource("5_lquwl")
 
 [node name="HeightTracker" type="Node2D" parent="."]
+position = Vector2(126, 14)
 script = ExtResource("8_kek77")
 
 [node name="HeightBar" type="ColorRect" parent="HeightTracker"]
@@ -104,7 +175,7 @@ offset_top = 4.86381
 offset_right = 40.0
 offset_bottom = 44.8638
 scale = Vector2(1.10526, 0.224532)
-color = Color(0.478495, 0.971201, 0.258229, 1)
+color = Color(0.627451, 0.733333, 0.341176, 1)
 
 [node name="HeightArrow" type="Sprite2D" parent="HeightTracker"]
 position = Vector2(206, 556)

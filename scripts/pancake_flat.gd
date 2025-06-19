@@ -15,10 +15,10 @@ var fall_speed_constant = 50
 var shouldBeMoving:bool = false
 var isMoving: bool = false
 var spawnPosition:Vector2
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 	spawnPosition = global_position
-
 
 func _physics_process(delta: float) -> void:
 	var direction = Vector2.ZERO 
@@ -38,11 +38,30 @@ func _physics_process(delta: float) -> void:
 			direction = direction.normalized()
 			global_position += direction * fall_speed * delta
 			pancake_position_changed.emit(global_position)			
-		
 	
 	if current_speed < speed_turning_point:
 		shouldBeMoving = false
 		is_pancake_moving.emit(false)
+	
+	if direction.length() > 0:
+		
+		$AnimatedSprite2D.play()
+	else:
+		$AnimatedSprite2D.stop()
+		
+	if direction.y == -1:
+		$AnimatedSprite2D.animation = &"moving"
+		rotation = PI if direction.y > 0 else 0
+		$AnimatedSprite2D.flip_v = false
+	
+	elif direction.y == 1:
+		$AnimatedSprite2D.animation = &"moving"		
+		$AnimatedSprite2D.flip_v = true			
+	else:
+		$AnimatedSprite2D.animation = &"flat"
+	
+		
+
 
 func _throw(speed):
 	var direction = Vector2.ZERO 

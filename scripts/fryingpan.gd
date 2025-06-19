@@ -20,14 +20,14 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if isSelected:
-		$Sprite2D.scale = Vector2(5.725,1.50)	
+		$Sprite2D.scale = Vector2(1.20,1.20)		
 	else:
-		$Sprite2D.scale = Vector2(5.425,1)
+		$Sprite2D.scale = Vector2(1.00,1.00)	
 
 func _physics_process(delta):
 	if isSelected:
 		global_position = lerp(global_position, get_global_mouse_position(), 10*delta)
-		_set_power_progress(10)					
+		_set_power_progress(20)					
 	else:
 		global_position = lerp(global_position, currentRestZone, 5*delta)
 		_hide_power_progress()
@@ -49,10 +49,10 @@ func _input(event):
 			
 
 func _on_mouse_entered() -> void:	
-	$Sprite2D.scale = Vector2(5.725,1.50)	
+	$Sprite2D.scale = Vector2(1.20,1.20)
 
 func _on_mouse_exited() -> void:	
-	$Sprite2D.scale = Vector2(5.425,1)
+	$Sprite2D.scale = Vector2(1.00,1.00)	
 	
 func _set_power_progress(newvalue):
 	if (!frying_power_progress_bar.visible):

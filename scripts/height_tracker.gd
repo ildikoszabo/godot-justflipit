@@ -21,11 +21,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if (!pancakePosition.is_equal_approx(global_position)):		
 		_set_height_arrow_position(pancakePosition)
-		
-	if (shouldTrack && max_height_reached <= green_zone.global_position.y && max_height_reached > green_zone.get_size().y ):
-		print(max_height_reached)
-		print(green_zone.global_position.y)
-		print(green_zone.get_size().y)
+	
+	#check only when coming down
+	if (shouldTrack && (max_height_reached >= green_zone.global_position.y || max_height_reached < green_zone.get_size().y )):
+		print("greem")	
 	
 	if (!shouldTrack):
 		_hide_all()
