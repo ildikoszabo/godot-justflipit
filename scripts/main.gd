@@ -299,7 +299,7 @@ func _on_restart_game_button_pressed() -> void:
 	
 func _getNextLevel():
 	if currentLevel == "level1":
-		return "complete"
+		return "level2"
 	if currentLevel == "level2":
 		return "level3"
 	if currentLevel == "level3":
