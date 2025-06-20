@@ -185,10 +185,10 @@ tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.0333333, 0.966667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-104, -206)]
+"values": [Vector2(0, 0), Vector2(69, -38)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -197,10 +197,10 @@ tracks/1/path = NodePath("Sprite2D:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.0333333, 0.633333, 1),
+"times": PackedFloat32Array(0, 0.4, 0.966667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0.0, -0.534938, -2.28112]
+"values": [0.0, 1.06621, 1.94297]
 }
 
 [sub_resource type="Animation" id="Animation_xuqvo"]
@@ -533,7 +533,7 @@ text = "0"
 label_settings = SubResource("LabelSettings_0odxb")
 
 [node name="Bottle" type="Area2D" parent="."]
-position = Vector2(421, 531)
+position = Vector2(51, 317)
 script = ExtResource("26_a6jrf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bottle"]
@@ -547,6 +547,7 @@ texture = ExtResource("26_lswn8")
 libraries = {
 &"": SubResource("AnimationLibrary_qsp4k")
 }
+speed_scale = 2.0
 script = ExtResource("28_xuqvo")
 
 [connection signal="timeout" from="Leveltimer" to="." method="_on_leveltimer_timeout"]

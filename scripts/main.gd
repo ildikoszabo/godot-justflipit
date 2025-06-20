@@ -129,9 +129,11 @@ func newLevel(level):
 
 func changelevel():
 	var nextlevel = _getNextLevel()
+	
 	if nextlevel == "complete":
 		ongameover()
 	else:
+		resetCertainLevel(nextlevel)
 		newLevel(nextlevel)	
 
 func resetLevels():
@@ -206,14 +208,27 @@ func _on_fryingpan_moved(newspeed):
 	
 func create_levels():
 	var task1 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)
-	var task2 = Task.create_task(Globals.TaskNames.FlipLeft,1,[Globals.Triggers.Fan], 10,   "res://assets/art/FlipLeft.png",7)
-	var task3 = Task.create_task(Globals.TaskNames.FallFast,1,[Globals.Triggers.Sirup], 8,   "res://assets/art/FallFast.png",9)
+	var task2 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)
+	var task3 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)
+	var task4 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)
+	var task5 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)
+	var task6 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)
+	var task7 = Task.create_task(Globals.TaskNames.ThrowHigh,1,[Globals.Triggers.BarScore], 10,  "res://assets/art/ThrowHigh.png",5)	
+	var fltask2 = Task.create_task(Globals.TaskNames.FlipLeft,1,[Globals.Triggers.Fan], 10,   "res://assets/art/FlipLeft.png",7)
+	var fltask3 = Task.create_task(Globals.TaskNames.FlipLeft,1,[Globals.Triggers.Fan], 10,   "res://assets/art/FlipLeft.png",7)
+	var fltask4 = Task.create_task(Globals.TaskNames.FlipLeft,1,[Globals.Triggers.Fan], 10,   "res://assets/art/FlipLeft.png",7)
+	var fltask5 = Task.create_task(Globals.TaskNames.FlipLeft,1,[Globals.Triggers.Fan], 10,   "res://assets/art/FlipLeft.png",7)
+	var fltask6 = Task.create_task(Globals.TaskNames.FlipLeft,1,[Globals.Triggers.Fan], 10,   "res://assets/art/FlipLeft.png",7)
+	var falltask1 = Task.create_task(Globals.TaskNames.FallFast,1,[Globals.Triggers.Sirup], 8,   "res://assets/art/FallFast.png",9)
+	var falltask2 = Task.create_task(Globals.TaskNames.FallFast,1,[Globals.Triggers.Sirup], 8,   "res://assets/art/FallFast.png",9)
+	var falltask3 = Task.create_task(Globals.TaskNames.FallFast,1,[Globals.Triggers.Sirup], 8,   "res://assets/art/FallFast.png",9)
+	var falltask4 = Task.create_task(Globals.TaskNames.FallFast,1,[Globals.Triggers.Sirup], 8,   "res://assets/art/FallFast.png",9)
 	levels["level1"] = [task1]
-	levels["level2"] = [task1, task2]
-	levels["level3"] = [task3]
-	levels["level4"] = [task2, task1, task2]
-	levels["level5"] = [task1, task3, task2, task1]
-	levels["level6"] = [task3, task3, task2, task1]
+	levels["level2"] = [task2, fltask2]
+	levels["level3"] = [falltask1]
+	levels["level4"] = [fltask6, falltask2, fltask3]
+	levels["level5"] = [task4, falltask3, fltask4, task5]
+	levels["level6"] = [task3, fltask5, task7, falltask4]
 
 func getLevelTime():
 	var time = 0
@@ -243,11 +258,12 @@ func getNrOfTasksCompletedOnLevel(checklevel):
 	return count
 
 func onTriggerSignalReceived(triggerSource:Globals.Triggers):
+	print("processing: " + str(triggerSource))
 	var currentTasks = levels[currentLevel]
 	var validTaskId = currentTasks.find_custom(isTaskNotCompleted.bind())
 	if (validTaskId != -1):
 		var validTask = currentTasks[validTaskId]
-		if !validTask.triggersReceived.has(triggerSource):
+		if validTask.triggersNeeded.has(triggerSource) and !validTask.triggersReceived.has(triggerSource):
 			validTask.triggersReceived.append(triggerSource)			
 			if (validTask.triggersReceived.size() == validTask.nrOfTriggersNeeded and isSameArray(validTask.triggersNeeded, validTask.triggersReceived)):
 				validTask.isCompleted = true;
@@ -283,7 +299,7 @@ func _on_restart_game_button_pressed() -> void:
 	
 func _getNextLevel():
 	if currentLevel == "level1":
-		return "level2"
+		return "complete"
 	if currentLevel == "level2":
 		return "level3"
 	if currentLevel == "level3":
