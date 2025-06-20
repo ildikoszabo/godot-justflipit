@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://db032udp1m8a7"]
+[gd_scene load_steps=58 format=3 uid="uid://db032udp1m8a7"]
 
 [ext_resource type="Script" uid="uid://ch8bi5g5x13r4" path="res://scripts/main.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://kulksd5q2q4j" path="res://assets/art/pancakekitchenbackground.png" id="2_4c57u"]
@@ -18,7 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://dql7bhu67e5kg" path="res://assets/art/pancake_moving_right.png" id="12_yaehf"]
 [ext_resource type="Texture2D" uid="uid://tthw23t2yuxf" path="res://assets/art/pancake_moving_right_1.png" id="13_074og"]
 [ext_resource type="Texture2D" uid="uid://cmyp35puoie4a" path="res://assets/art/pancake_moving_right_2.png" id="14_cegan"]
+[ext_resource type="Texture2D" uid="uid://d55wt7d5ekqr" path="res://assets/art/FallFast.png" id="18_getpj"]
 [ext_resource type="Script" uid="uid://c1stdcd5e1fs7" path="res://scripts/green_zone.gd" id="18_ryguw"]
+[ext_resource type="Texture2D" uid="uid://c8m3v61mcraum" path="res://assets/art/FlipLeft.png" id="19_ryguw"]
+[ext_resource type="Texture2D" uid="uid://cqhyedm5bugw8" path="res://assets/art/ThrowHigh.png" id="21_1u8w0"]
 [ext_resource type="Texture2D" uid="uid://bco58ulbiy00d" path="res://assets/art/Clock.png" id="21_getpj"]
 [ext_resource type="Script" uid="uid://bwqbyheey7au8" path="res://scripts/fan.gd" id="22_1u8w0"]
 [ext_resource type="Texture2D" uid="uid://b8ysueiy36450" path="res://assets/art/fan_step2.png" id="22_d13ii"]
@@ -236,6 +239,10 @@ _data = {
 &"bottle_up": SubResource("Animation_a6jrf")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_seu75"]
+font_size = 31
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1bvp3")
 returnZonePosition = Vector2(117, 615)
@@ -243,11 +250,11 @@ returnZonePosition = Vector2(117, 615)
 [node name="Leveltimer" type="Timer" parent="."]
 
 [node name="BlankBackground" type="Sprite2D" parent="."]
-position = Vector2(239, 363)
+position = Vector2(240, 360)
 texture = ExtResource("2_82xsv")
 
 [node name="background" type="Sprite2D" parent="."]
-position = Vector2(239, 363)
+position = Vector2(240, 360)
 texture = ExtResource("2_4c57u")
 
 [node name="Pancake" type="RigidBody2D" parent="."]
@@ -392,11 +399,8 @@ offset_bottom = 134.0
 pivot_offset = Vector2(20, 20)
 script = ExtResource("23_d13ii")
 
-[node name="TaskIcon" type="TextureRect" parent="TaskDisplay/ColorRect/TaskIconPanel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-stretch_mode = 2
+[node name="TaskSprite2D" type="Sprite2D" parent="TaskDisplay/ColorRect/TaskIconPanel"]
+position = Vector2(-1, 22)
 
 [node name="GameLabel" type="Label" parent="."]
 offset_left = 79.0
@@ -549,6 +553,30 @@ libraries = {
 }
 speed_scale = 2.0
 script = ExtResource("28_xuqvo")
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FallFast" type="Sprite2D" parent="Control"]
+texture = ExtResource("18_getpj")
+
+[node name="FlipLeft" type="Sprite2D" parent="Control"]
+texture = ExtResource("19_ryguw")
+
+[node name="ThrowHigh" type="Sprite2D" parent="Control"]
+texture = ExtResource("21_1u8w0")
+
+[node name="LevelLabel" type="Label" parent="."]
+offset_left = 183.0
+offset_top = 680.0
+offset_right = 270.0
+offset_bottom = 724.0
+text = "level1"
+label_settings = SubResource("LabelSettings_seu75")
 
 [connection signal="timeout" from="Leveltimer" to="." method="_on_leveltimer_timeout"]
 [connection signal="body_entered" from="Pancake" to="Pancake" method="_on_body_entered"]

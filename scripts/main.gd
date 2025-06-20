@@ -10,7 +10,8 @@ extends Node2D
 @onready var throw_high: Sprite2D = $Icons/ThrowHigh
 @onready var height_tracker: Node2D = $HeightTracker
 @onready var task_count_label: Label = $TaskDisplay/ColorRect/TaskCountLabel
-@onready var task_icon: TextureRect = $TaskDisplay/ColorRect/TaskIconPanel/TaskIcon
+@onready var task_sprite_2d: Sprite2D = $TaskDisplay/ColorRect/TaskIconPanel/TaskSprite2D
+
 @onready var task_icon_panel: Panel = $TaskDisplay/ColorRect/TaskIconPanel
 @onready var blank_background: Sprite2D = $BlankBackground
 @onready var background: Sprite2D = $background
@@ -27,6 +28,10 @@ extends Node2D
 @onready var score_panel: Control = $ScorePanel
 @onready var finalscore: Label = $FailedLevelPanel/finalscore
 @onready var bottle: Area2D = $Bottle
+@onready var fall_fast_sprite: Sprite2D = $Control/FallFast
+@onready var flip_left_sprite: Sprite2D = $Control/FlipLeft
+@onready var throw_high_sprite: Sprite2D = $Control/ThrowHigh
+@onready var level_label: Label = $LevelLabel
 
 var score=0
 var currentLevel:String
@@ -70,6 +75,7 @@ func setScene(visible):
 		fan.show()
 		score_panel.show()
 		bottle.show()
+		level_label.show()
 		gamestarted = true
 	else:
 		blank_background.show()		
@@ -81,12 +87,14 @@ func setScene(visible):
 		fan.hide()
 		score_panel.hide()
 		bottle.hide()
+		level_label.hide()
 		gamestarted = false
 	
 
 func _process(delta: float) -> void:
 	if gamestarted:
 		score_label.text = str(score)
+		level_label.text = currentLevel
 		if not leveltimer.is_stopped():
 			setLevelTIme(roundf(leveltimer.time_left))
 		
@@ -171,10 +179,22 @@ func setCurrentTaskIcon():
 		var image = Image.new()
 		var image_path = currentTasks[nextId].taskIcon #"res://path/to/your/image.png"  Replace with your image path
 		var err = image.load(image_path)
-		var texture = ImageTexture.create_from_image(image)
+		#var texture = ImageTexture.create_from_image(image)
+		var img = getIconImage(currentTasks[nextId].taskIcon)
 		setTaskIconTransparent()
-		task_icon.texture = texture
+		task_sprite_2d.texture = img.texture
 	
+func getIconImage(name):
+	if name.contains("FallFast"):
+		return fall_fast_sprite
+	
+	if name.contains("ThrowHigh"):
+		return throw_high_sprite
+		
+	if name.contains("FlipLeft"):
+		return flip_left_sprite
+	
+
 func setTaskIconCompleted():
 	task_icon_panel.setBackground(Color.GREEN)
 	var tween = get_tree().create_tween()
