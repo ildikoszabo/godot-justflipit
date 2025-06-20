@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://db032udp1m8a7"]
+[gd_scene load_steps=31 format=3 uid="uid://db032udp1m8a7"]
 
 [ext_resource type="Script" uid="uid://ch8bi5g5x13r4" path="res://scripts/main.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://kulksd5q2q4j" path="res://assets/art/pancakekitchenbackground.png" id="2_4c57u"]
@@ -17,6 +17,11 @@
 [ext_resource type="Texture2D" uid="uid://dql7bhu67e5kg" path="res://assets/art/pancake_moving_right.png" id="12_yaehf"]
 [ext_resource type="Texture2D" uid="uid://tthw23t2yuxf" path="res://assets/art/pancake_moving_right_1.png" id="13_074og"]
 [ext_resource type="Texture2D" uid="uid://cmyp35puoie4a" path="res://assets/art/pancake_moving_right_2.png" id="14_cegan"]
+[ext_resource type="Texture2D" uid="uid://d55wt7d5ekqr" path="res://assets/art/FallFast.png" id="18_getpj"]
+[ext_resource type="Script" uid="uid://c1stdcd5e1fs7" path="res://scripts/green_zone.gd" id="18_ryguw"]
+[ext_resource type="Texture2D" uid="uid://c8m3v61mcraum" path="res://assets/art/FlipLeft.png" id="19_ryguw"]
+[ext_resource type="Texture2D" uid="uid://di7ad06638te" path="res://assets/art/FlipRight.png" id="20_d13ii"]
+[ext_resource type="Texture2D" uid="uid://cqhyedm5bugw8" path="res://assets/art/ThrowHigh.png" id="21_1u8w0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dm0k"]
 radius = 21.587
@@ -90,9 +95,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_getpj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ryguw"]
+size = Vector2(346, 88)
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1bvp3")
 returnZonePosition = Vector2(117, 615)
+
+[node name="Leveltimer" type="Timer" parent="."]
 
 [node name="background" type="Sprite2D" parent="."]
 position = Vector2(239, 363)
@@ -183,6 +195,39 @@ rotation = -0.00730349
 scale = Vector2(0.345778, 0.702554)
 texture = ExtResource("7_5vw27")
 
+[node name="GreenZone" type="Area2D" parent="HeightTracker"]
+script = ExtResource("18_ryguw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeightTracker/GreenZone"]
+position = Vector2(131, 193)
+scale = Vector2(17.2626, 5.67069)
+shape = SubResource("RectangleShape2D_getpj")
+
+[node name="RedZone" type="Area2D" parent="HeightTracker"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeightTracker/RedZone"]
+position = Vector2(131, 58)
+scale = Vector2(1.00863, 1.7609)
+shape = SubResource("RectangleShape2D_ryguw")
+
+[node name="Icons" type="Node2D" parent="."]
+visible = false
+
+[node name="FallFast" type="Sprite2D" parent="Icons"]
+texture = ExtResource("18_getpj")
+
+[node name="FlipLeft" type="Sprite2D" parent="Icons"]
+texture = ExtResource("19_ryguw")
+
+[node name="FlipRight" type="Sprite2D" parent="Icons"]
+texture = ExtResource("20_d13ii")
+
+[node name="ThrowHigh" type="Sprite2D" parent="Icons"]
+texture = ExtResource("21_1u8w0")
+
+[connection signal="timeout" from="Leveltimer" to="." method="_on_leveltimer_timeout"]
 [connection signal="body_entered" from="Pancake" to="Pancake" method="_on_body_entered"]
 [connection signal="mouse_entered" from="FryingPan" to="FryingPan" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="FryingPan" to="FryingPan" method="_on_mouse_exited"]
+[connection signal="area_entered" from="HeightTracker/GreenZone" to="HeightTracker" method="_on_green_zone_area_entered"]
+[connection signal="area_entered" from="HeightTracker/RedZone" to="HeightTracker" method="_on_red_zone_area_entered"]

@@ -1,4 +1,4 @@
-extends Area2D
+class_name PancakeFlat extends Area2D
 
 signal pancake_position_changed
 signal is_pancake_moving
@@ -36,15 +36,15 @@ func _physics_process(delta: float) -> void:
 		if direction != Vector2.ZERO:
 			fall_speed = lerp(fall_speed, target_down_speed, lerp_speed)				
 			direction = direction.normalized()
-			global_position += direction * fall_speed * delta
+			#global_position += direction * fall_speed * delta
+			global_position = global_position.move_toward(spawnPosition, fall_speed * delta)
 			pancake_position_changed.emit(global_position)			
 	
 	if current_speed < speed_turning_point:
 		shouldBeMoving = false
 		is_pancake_moving.emit(false)
 	
-	if direction.length() > 0:
-		
+	if direction.length() > 0:		
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
