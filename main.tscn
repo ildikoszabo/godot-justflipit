@@ -1,8 +1,9 @@
-[gd_scene load_steps=31 format=3 uid="uid://db032udp1m8a7"]
+[gd_scene load_steps=54 format=3 uid="uid://db032udp1m8a7"]
 
 [ext_resource type="Script" uid="uid://ch8bi5g5x13r4" path="res://scripts/main.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://kulksd5q2q4j" path="res://assets/art/pancakekitchenbackground.png" id="2_4c57u"]
 [ext_resource type="Script" uid="uid://dhc3pt7kqk7ai" path="res://scripts/pancake.gd" id="2_7mycd"]
+[ext_resource type="Texture2D" uid="uid://sl7qpyuednqq" path="res://assets/art/pancakekitchen_blank.png" id="2_82xsv"]
 [ext_resource type="Script" uid="uid://cqs7udbhmxwsp" path="res://scripts/pancake_flat.gd" id="2_272bh"]
 [ext_resource type="Script" uid="uid://osy0rboshbbh" path="res://scripts/fryingpan.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://jxopohu2wm4y" path="res://scripts/return_zone.gd" id="5_lquwl"]
@@ -17,11 +18,16 @@
 [ext_resource type="Texture2D" uid="uid://dql7bhu67e5kg" path="res://assets/art/pancake_moving_right.png" id="12_yaehf"]
 [ext_resource type="Texture2D" uid="uid://tthw23t2yuxf" path="res://assets/art/pancake_moving_right_1.png" id="13_074og"]
 [ext_resource type="Texture2D" uid="uid://cmyp35puoie4a" path="res://assets/art/pancake_moving_right_2.png" id="14_cegan"]
-[ext_resource type="Texture2D" uid="uid://d55wt7d5ekqr" path="res://assets/art/FallFast.png" id="18_getpj"]
 [ext_resource type="Script" uid="uid://c1stdcd5e1fs7" path="res://scripts/green_zone.gd" id="18_ryguw"]
-[ext_resource type="Texture2D" uid="uid://c8m3v61mcraum" path="res://assets/art/FlipLeft.png" id="19_ryguw"]
-[ext_resource type="Texture2D" uid="uid://di7ad06638te" path="res://assets/art/FlipRight.png" id="20_d13ii"]
-[ext_resource type="Texture2D" uid="uid://cqhyedm5bugw8" path="res://assets/art/ThrowHigh.png" id="21_1u8w0"]
+[ext_resource type="Texture2D" uid="uid://bco58ulbiy00d" path="res://assets/art/Clock.png" id="21_getpj"]
+[ext_resource type="Script" uid="uid://bwqbyheey7au8" path="res://scripts/fan.gd" id="22_1u8w0"]
+[ext_resource type="Texture2D" uid="uid://b8ysueiy36450" path="res://assets/art/fan_step2.png" id="22_d13ii"]
+[ext_resource type="Texture2D" uid="uid://b84whanqmcvny" path="res://assets/art/fan_step1.png" id="23_1u8w0"]
+[ext_resource type="Script" uid="uid://cgm42a83wtibk" path="res://scripts/task_icon_panel.gd" id="23_d13ii"]
+[ext_resource type="Texture2D" uid="uid://da4l3lobmsly5" path="res://assets/art/Coin.png" id="25_0odxb"]
+[ext_resource type="Script" uid="uid://dafv3anttj3o3" path="res://scripts/bottle.gd" id="26_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://bspsmagct4su4" path="res://assets/art/bottle.png" id="26_lswn8"]
+[ext_resource type="Script" uid="uid://dnl8j5ut3m18p" path="res://scripts/animation_player.gd" id="28_xuqvo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dm0k"]
 radius = 21.587
@@ -75,7 +81,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"rotate_left",
-"speed": 5.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -100,11 +106,145 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ryguw"]
 size = Vector2(346, 88)
 
+[sub_resource type="SystemFont" id="SystemFont_ryguw"]
+font_weight = 550
+font_stretch = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
+font = SubResource("SystemFont_ryguw")
+font_size = 35
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+outline_color = Color(0.0295066, 0.0295066, 0.0295066, 1)
+shadow_size = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
+font_size = 100
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82xsv"]
+bg_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ryguw"]
+font_size = 34
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_getpj"]
+font_size = 84
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_getpj"]
+bg_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryguw"]
+bg_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1u8w0"]
+font_size = 70
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lswn8"]
+font_size = 36
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d13ii"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0odxb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_d13ii")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_1u8w0")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 23.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_1u8w0")
+}],
+"loop": false,
+"name": &"standing",
+"speed": 5.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0odxb"]
+font_size = 34
+font_color = Color(0.313726, 0.47451, 0.419608, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6jrf"]
+
+[sub_resource type="Animation" id="Animation_a6jrf"]
+resource_name = "bottle_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-104, -206)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.633333, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.534938, -2.28112]
+}
+
+[sub_resource type="Animation" id="Animation_xuqvo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qsp4k"]
+_data = {
+&"RESET": SubResource("Animation_xuqvo"),
+&"bottle_up": SubResource("Animation_a6jrf")
+}
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1bvp3")
 returnZonePosition = Vector2(117, 615)
 
 [node name="Leveltimer" type="Timer" parent="."]
+
+[node name="BlankBackground" type="Sprite2D" parent="."]
+position = Vector2(239, 363)
+texture = ExtResource("2_82xsv")
 
 [node name="background" type="Sprite2D" parent="."]
 position = Vector2(239, 363)
@@ -161,7 +301,7 @@ shape = SubResource("RectangleShape2D_7mycd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PancakeFlat"]
 sprite_frames = SubResource("SpriteFrames_4c57u")
-animation = &"rotate_right"
+animation = &"rotate_left"
 frame = 3
 frame_progress = 1.0
 
@@ -210,20 +350,204 @@ position = Vector2(131, 58)
 scale = Vector2(1.00863, 1.7609)
 shape = SubResource("RectangleShape2D_ryguw")
 
-[node name="Icons" type="Node2D" parent="."]
-visible = false
+[node name="TaskDisplay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="FallFast" type="Sprite2D" parent="Icons"]
-texture = ExtResource("18_getpj")
+[node name="ColorRect" type="ColorRect" parent="TaskDisplay"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 7.0
+offset_right = 161.0
+offset_bottom = 157.0
+color = Color(1, 0.984314, 0.909804, 0)
 
-[node name="FlipLeft" type="Sprite2D" parent="Icons"]
-texture = ExtResource("19_ryguw")
+[node name="TaskCountLabel" type="Label" parent="TaskDisplay/ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+scale = Vector2(1, 0.825175)
+text = "Tasks 0/X"
+label_settings = SubResource("LabelSettings_d13ii")
 
-[node name="FlipRight" type="Sprite2D" parent="Icons"]
-texture = ExtResource("20_d13ii")
+[node name="CurrentTask" type="Label" parent="TaskDisplay/ColorRect"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 46.0
+offset_right = 125.0
+offset_bottom = 93.0
+scale = Vector2(1, 0.825175)
+text = "Current"
+label_settings = SubResource("LabelSettings_d13ii")
 
-[node name="ThrowHigh" type="Sprite2D" parent="Icons"]
-texture = ExtResource("21_1u8w0")
+[node name="TaskIconPanel" type="Panel" parent="TaskDisplay/ColorRect"]
+self_modulate = Color(0.321569, 0.494118, 0.258824, 0.239216)
+layout_mode = 0
+offset_left = 43.0
+offset_top = 94.0
+offset_right = 83.0
+offset_bottom = 134.0
+pivot_offset = Vector2(20, 20)
+script = ExtResource("23_d13ii")
+
+[node name="TaskIcon" type="TextureRect" parent="TaskDisplay/ColorRect/TaskIconPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+stretch_mode = 2
+
+[node name="GameLabel" type="Label" parent="."]
+offset_left = 79.0
+offset_top = 57.0
+offset_right = 391.0
+offset_bottom = 334.0
+size_flags_horizontal = 2
+text = "JUST
+FLIP IT"
+label_settings = SubResource("LabelSettings_82xsv")
+horizontal_alignment = 1
+
+[node name="StartGameButton" type="Button" parent="."]
+offset_left = 134.0
+offset_top = 391.0
+offset_right = 334.0
+offset_bottom = 471.0
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_82xsv")
+text = "START GAME"
+
+[node name="TimePanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="TimePanel"]
+layout_mode = 0
+offset_left = 334.0
+offset_top = 9.0
+offset_right = 374.0
+offset_bottom = 49.0
+texture = ExtResource("21_getpj")
+
+[node name="LevelTime" type="Label" parent="TimePanel"]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 6.0
+offset_right = 438.0
+offset_bottom = 53.0
+text = "0"
+label_settings = SubResource("LabelSettings_ryguw")
+
+[node name="FailedLevelPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="FailedLevelPanel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 53.0
+offset_right = 446.0
+offset_bottom = 168.0
+text = "TIME OUT"
+label_settings = SubResource("LabelSettings_getpj")
+
+[node name="RetryLevelButton" type="Button" parent="FailedLevelPanel"]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 322.0
+offset_right = 362.0
+offset_bottom = 402.0
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_getpj")
+text = "RESTART LEVEL"
+
+[node name="RestartGameButton" type="Button" parent="FailedLevelPanel"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 463.0
+offset_right = 363.0
+offset_bottom = 543.0
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_ryguw")
+text = "RESTART GAME"
+
+[node name="gameoverlabel" type="Label" parent="FailedLevelPanel"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 59.0
+offset_right = 446.0
+offset_bottom = 155.0
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_1u8w0")
+
+[node name="finalscore" type="Label" parent="FailedLevelPanel"]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 178.0
+offset_right = 296.0
+offset_bottom = 228.0
+text = "Final Score: "
+label_settings = SubResource("LabelSettings_lswn8")
+
+[node name="Fan" type="Area2D" parent="."]
+position = Vector2(415, 222)
+script = ExtResource("22_1u8w0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fan"]
+position = Vector2(-126, -16)
+scale = Vector2(19.08, 5.64)
+shape = SubResource("RectangleShape2D_d13ii")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Fan"]
+sprite_frames = SubResource("SpriteFrames_0odxb")
+animation = &"moving"
+frame = 1
+frame_progress = 0.461003
+
+[node name="ScorePanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 276.0
+offset_top = 6.0
+offset_right = 316.0
+offset_bottom = 46.0
+
+[node name="TextureRect" type="TextureRect" parent="ScorePanel"]
+layout_mode = 0
+offset_left = -49.0
+offset_top = 3.0
+offset_right = -9.0
+offset_bottom = 43.0
+texture = ExtResource("25_0odxb")
+
+[node name="ScoreLabel" type="Label" parent="ScorePanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
+label_settings = SubResource("LabelSettings_0odxb")
+
+[node name="Bottle" type="Area2D" parent="."]
+position = Vector2(421, 531)
+script = ExtResource("26_a6jrf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottle"]
+scale = Vector2(2.96, 6.2)
+shape = SubResource("RectangleShape2D_a6jrf")
+
+[node name="Sprite2D" type="Sprite2D" parent="Bottle"]
+texture = ExtResource("26_lswn8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Bottle"]
+libraries = {
+&"": SubResource("AnimationLibrary_qsp4k")
+}
+script = ExtResource("28_xuqvo")
 
 [connection signal="timeout" from="Leveltimer" to="." method="_on_leveltimer_timeout"]
 [connection signal="body_entered" from="Pancake" to="Pancake" method="_on_body_entered"]
@@ -231,3 +555,13 @@ texture = ExtResource("21_1u8w0")
 [connection signal="mouse_exited" from="FryingPan" to="FryingPan" method="_on_mouse_exited"]
 [connection signal="area_entered" from="HeightTracker/GreenZone" to="HeightTracker" method="_on_green_zone_area_entered"]
 [connection signal="area_entered" from="HeightTracker/RedZone" to="HeightTracker" method="_on_red_zone_area_entered"]
+[connection signal="pressed" from="StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="FailedLevelPanel/RetryLevelButton" to="." method="_on_retry_level_button_pressed"]
+[connection signal="pressed" from="FailedLevelPanel/RestartGameButton" to="." method="_on_restart_game_button_pressed"]
+[connection signal="area_entered" from="Fan" to="Fan" method="_on_area_entered"]
+[connection signal="area_exited" from="Fan" to="Fan" method="_on_area_exited"]
+[connection signal="mouse_entered" from="Fan" to="Fan" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Fan" to="Fan" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Bottle" to="Bottle" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Bottle" to="Bottle" method="_on_mouse_exited"]
+[connection signal="animation_finished" from="Bottle/AnimationPlayer" to="Bottle/AnimationPlayer" method="_on_animation_finished"]

@@ -4,12 +4,13 @@ var taskName:Globals.TaskNames
 var nrOfTriggersNeeded:int 
 var triggersNeeded:Array[Globals.Triggers] 
 var triggersReceived:Array[Globals.Triggers] 
-var taskIcon:Sprite2D
+var taskIcon:String
 var isCompleted: = false
 var taskTimeSeconds:int 
+var score:int
 
 
-static func create_task(ntaskName:Globals.TaskNames, ntriggersNeeded:int, ntriggers:Array[Globals.Triggers], ntaskTimeSeconds, icon:Sprite2D):
+static func create_task(ntaskName:Globals.TaskNames, ntriggersNeeded:int, ntriggers:Array[Globals.Triggers], ntaskTimeSeconds, icon:String, score:int):
 	var instance = Task.new()
 	instance.taskName = ntaskName
 	instance.nrOfTriggersNeeded = ntriggersNeeded
@@ -17,4 +18,5 @@ static func create_task(ntaskName:Globals.TaskNames, ntriggersNeeded:int, ntrigg
 	instance.isCompleted = false
 	instance.taskTimeSeconds = ntaskTimeSeconds
 	instance.taskIcon = icon
+	instance.score = score
 	return instance

@@ -15,10 +15,16 @@ var fall_speed_constant = 50
 var shouldBeMoving:bool = false
 var isMoving: bool = false
 var spawnPosition:Vector2
+var shoudrotateleft = false
+var shoudfallfast = false
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var fan: Area2D = $"../Fan"
+@onready var bottle: Area2D = $"../Bottle"
 
 func _ready() -> void:
 	spawnPosition = global_position
+	fan.fanpancake.connect(_onFanSignal)
+	bottle.bottle.connect(_onBottleSignal)
 
 func _physics_process(delta: float) -> void:
 	var direction = Vector2.ZERO 
@@ -34,7 +40,9 @@ func _physics_process(delta: float) -> void:
 			#global_position = global_position.move_toward(spawnPosition, fall_speed * delta)
 		direction.y += 1	
 		if direction != Vector2.ZERO:
-			fall_speed = lerp(fall_speed, target_down_speed, lerp_speed)				
+			if not shoudfallfast:
+				fall_speed = lerp(fall_speed, target_down_speed, lerp_speed)
+							
 			direction = direction.normalized()
 			#global_position += direction * fall_speed * delta
 			global_position = global_position.move_toward(spawnPosition, fall_speed * delta)
@@ -43,25 +51,36 @@ func _physics_process(delta: float) -> void:
 	if current_speed < speed_turning_point:
 		shouldBeMoving = false
 		is_pancake_moving.emit(false)
-	
-	if direction.length() > 0:		
-		$AnimatedSprite2D.play()
-	else:
-		$AnimatedSprite2D.stop()
+
 		
 	if direction.y == -1:
-		$AnimatedSprite2D.animation = &"moving"
+		if shoudrotateleft:
+			$AnimatedSprite2D.animation = &"rotate_left"
+		else:
+			$AnimatedSprite2D.animation = &"moving"
 		rotation = PI if direction.y > 0 else 0
 		$AnimatedSprite2D.flip_v = false
 	
 	elif direction.y == 1:
+		shoudrotateleft = false
 		$AnimatedSprite2D.animation = &"moving"		
 		$AnimatedSprite2D.flip_v = true			
 	else:
+		shoudrotateleft = false
 		$AnimatedSprite2D.animation = &"flat"
+			
+	if direction.length() > 0:		
+		$AnimatedSprite2D.play()
+	else:
+		$AnimatedSprite2D.stop()
 	
 		
-
+func _onFanSignal(triggerSource:Globals.Triggers):
+	$AnimatedSprite2D.animation = &"rotate_left"
+	shoudrotateleft = true
+	
+func _onBottleSignal(triggerSource:Globals.Triggers):
+	shoudfallfast = true
 
 func _throw(speed):
 	var direction = Vector2.ZERO 
@@ -75,3 +94,6 @@ func _set_should_move(shouldMove:bool, newspeed):
 	current_speed = newspeed
 	fall_speed = newspeed + fall_speed_constant #should come down harder than it goes up
 	is_pancake_moving.emit(shouldMove)
+
+func resetPosition():
+	global_position = spawnPosition

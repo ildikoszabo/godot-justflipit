@@ -10,23 +10,26 @@ var signalSent:bool = false
 @onready var frying_power_progress_bar: ProgressBar = $FryingPowerProgressBar
 var currentFryingPanPower:float = 0.0
 var minFryingPanPower:float = 0.0
+var isOnPan = false
 
 func _ready():
 	restZones = get_tree().get_nodes_in_group("returnZone")
 	pancake = get_parent().get_node("Pancake")
 	currentRestZone = restZones[0].global_position
 	frying_power_progress_bar.visible = false
+	isOnPan = false
 
 
-func _process(delta: float) -> void:
+"""func _process(delta: float) -> void:
 	if isSelected:
 		$Sprite2D.scale = Vector2(1.20,1.20)		
 	else:
-		$Sprite2D.scale = Vector2(1.00,1.00)	
+		$Sprite2D.scale = Vector2(1.00,1.00)	"""
 
 func _physics_process(delta):
 	if isSelected:
-		global_position = lerp(global_position, get_global_mouse_position(), 10*delta)
+		var v = get_global_mouse_position().clamp(Vector2(170,590),Vector2(200,610))
+		global_position = lerp(global_position, v, 10*delta)
 		_set_power_progress(20)					
 	else:
 		global_position = lerp(global_position, currentRestZone, 5*delta)
@@ -36,7 +39,7 @@ func _physics_process(delta):
 
 		
 func _input(event):
-	if event is InputEventMouseButton:		
+	if event is InputEventMouseButton and isOnPan:		
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:			
 			isSelected = true
 		if event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
@@ -48,11 +51,15 @@ func _input(event):
 			
 			
 
-func _on_mouse_entered() -> void:	
+func _on_mouse_entered() -> void:
+	isOnPan = true	
 	$Sprite2D.scale = Vector2(1.20,1.20)
 
-func _on_mouse_exited() -> void:	
-	$Sprite2D.scale = Vector2(1.00,1.00)	
+func _on_mouse_exited() -> void:
+	isOnPan = false	
+	isSelected = false
+	$Sprite2D.scale = Vector2(1.00,1.00)
+	_hide_power_progress()	
 	
 func _set_power_progress(newvalue):
 	if (!frying_power_progress_bar.visible):
